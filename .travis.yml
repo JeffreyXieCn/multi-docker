@@ -3,20 +3,20 @@ services:
   - docker
 
 before_install:
-  - docker build -t jeffreyxie/react-test -f ./client/Dockerfile.dev ./client
+  - docker build -t xwy5201314/react-test -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run jeffreyxie/react-test npm test -- --coverage
+  - docker run xwy5201314/react-test npm test -- --coverage
 
 after_success:
-  - docker build -t jeffreyxie/multi-client ./client
-  - docker build -t jeffreyxie/multi-nginx ./nginx
-  - docker build -t jeffreyxie/multi-server ./server
-  - docker build -t jeffreyxie/multi-worker ./worker
+  - docker build -t xwy5201314/multi-client ./client
+  - docker build -t xwy5201314/multi-nginx ./nginx
+  - docker build -t xwy5201314/multi-server ./server
+  - docker build -t xwy5201314/multi-worker ./worker
   # Log in to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   # Take those images and push them to docker hub
-  - docker push jeffreyxie/multi-client
-  - docker push jeffreyxie/multi-nginx
-  - docker push jeffreyxie/multi-server
-  - docker push jeffreyxie/multi-worker
+  - docker push xwy5201314/multi-client
+  - docker push xwy5201314/multi-nginx
+  - docker push xwy5201314/multi-server
+  - docker push xwy5201314/multi-worker
