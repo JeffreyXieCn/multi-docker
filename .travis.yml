@@ -1,0 +1,22 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t jeffreyxie/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run jeffreyxie/react-test npm test -- --coverage
+
+after_success:
+  - docker build -t jeffreyxie/multi-client ./client
+  - docker build -t jeffreyxie/multi-nginx ./nginx
+  - docker build -t jeffreyxie/multi-server ./server
+  - docker build -t jeffreyxie/multi-worker ./worker
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take those images and push them to docker hub
+  - docker push jeffreyxie/multi-client
+  - docker push jeffreyxie/multi-nginx
+  - docker push jeffreyxie/multi-server
+  - docker push jeffreyxie/multi-worker
